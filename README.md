@@ -4,6 +4,10 @@ A lightweight, fast, and accurate intent classification model built from scratch
 
 **7.8M parameters | 22 intent classes | 88.6% accuracy | ~50ms inference on GPU**
 
+
+![JANE AI Banner](assets/banner.webp)
+
+
 ## Overview
 
 JaneGPT v2 is a decoder-only transformer with a classification head, designed to understand user commands for a virtual assistant. It classifies natural language into 22 intent categories covering volume control, brightness, media playback, app management, browser search, and more.
