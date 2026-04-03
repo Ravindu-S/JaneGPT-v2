@@ -5,7 +5,7 @@
 | Field | Value |
 |-------|-------|
 | Model Name | JaneGPT v2 Intent Classifier |
-| Version | 1.0 |
+| Version | 2.0 |
 | Type | Decoder-only Transformer + Classification Head |
 | Task | Intent Classification (22 classes) |
 | Language | English |
