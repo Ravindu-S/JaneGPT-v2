@@ -14,6 +14,8 @@ JaneGPT v2 is a decoder-only transformer with a classification head, designed to
 
 Built with modern architecture techniques used in state-of-the-art LLMs, scaled down to run efficiently on consumer hardware.
 
+![Loss Curves](assets/janegpt_combined_loss_curves.png)
+
 ## Key Features
 
 - **From scratch** — Not fine-tuned from another model. Architecture and training done from zero.
