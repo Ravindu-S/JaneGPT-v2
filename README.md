@@ -2,7 +2,7 @@
 
 A lightweight, fast, and accurate intent classification model built from scratch for virtual assistant command understanding.
 
-**7.8M parameters | 22 intent classes | 88.6% accuracy | ~50ms inference on GPU**
+**7.8M parameters | 22 intent classes | 88.6% accuracy | ~17ms inference on GPU**
 
 
 ![JANE AI Banner](assets/banner.webp)
@@ -20,7 +20,7 @@ Built with modern architecture techniques used in state-of-the-art LLMs, scaled 
 
 - **From scratch** — Not fine-tuned from another model. Architecture and training done from zero.
 - **Tiny but capable** — 7.8M parameters (1000x smaller than Llama 3 8B)
-- **Fast** — ~50ms on GPU, ~200ms on CPU
+- **Fast** — ~17ms on GPU, ~200ms on CPU
 - **Modern architecture** — RoPE, Grouped Query Attention, SwiGLU, RMSNorm
 - **Context-aware** — Accepts conversation context for multi-turn understanding
 - **Practical** — Designed for real-world virtual assistant deployment
