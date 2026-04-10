@@ -3,7 +3,9 @@ Batch inference example for JaneGPT v2 Intent Classifier.
 
 Classifies multiple inputs efficiently.
 """
-
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import time
 import json
 from pathlib import Path

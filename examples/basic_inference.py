@@ -1,7 +1,9 @@
 """
 Basic inference example for JaneGPT v2 Intent Classifier.
 """
-
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.classifier import JaneGPTClassifier
 
 def main():
