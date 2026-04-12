@@ -5,7 +5,7 @@ A lightweight, fast, and accurate intent classification model built from scratch
 **7.8M parameters | 22 intent classes | 88.6% accuracy | ~17ms inference on GPU**
 
 
-![JANE AI Banner](assets/banner.webp)
+![JaneGPT AI Banner](../assets/banner.webp)
 
 
 ## Overview
@@ -14,7 +14,7 @@ JaneGPT v2 is a decoder-only transformer with a classification head, designed to
 
 Built with modern architecture techniques used in state-of-the-art LLMs, scaled down to run efficiently on consumer hardware.
 
-![Loss Curves](assets/janegpt_combined_loss_curves.png)
+![Loss Curves](../assets/janegpt_combined_loss_curves.png)
 
 ## Key Features
 
