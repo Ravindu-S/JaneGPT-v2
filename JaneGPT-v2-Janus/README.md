@@ -277,7 +277,7 @@ Reports and diagnostics:
 
 ## License
 
-Apache License 2.0 (see `LICENSE`).
+Apache License 2.0 (see [LICENSE](LICENSE)).
 
 ## Author
 

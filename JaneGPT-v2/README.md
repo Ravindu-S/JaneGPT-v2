@@ -198,7 +198,7 @@ The classifier wrapper handles this formatting automatically.
 
 ### License
 
-MIT License — free for personal and commercial use.
+[MIT License](LICENSE) — free for personal and commercial use.
 
 ### Created By
 

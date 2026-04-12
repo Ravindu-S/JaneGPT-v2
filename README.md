@@ -131,10 +131,10 @@ Template row:
 
 ## License
 
-Each model folder can define its own license details:
+Each model folder defines its own license:
 
-- [JaneGPT-v2-Janus/LICENSE](JaneGPT-v2-Janus/LICENSE)
-- [JaneGPT-v2/LICENSE](JaneGPT-v2/LICENSE)
+- [JaneGPT-v2-Janus License](JaneGPT-v2-Janus/LICENSE)
+- [JaneGPT-v2 License](JaneGPT-v2/LICENSE)
 
 ---
 
