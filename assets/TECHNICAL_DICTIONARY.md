@@ -316,8 +316,6 @@ Training acc: 99% ← Memorized the training data
 Validation acc: 87% ← Real performance on new data
 ```
 
-![Validation Accuracies](../JaneGPT-v2-Janus/reports/val_accuracies.png)
-
 ---
 
 ### Confusion Matrix
@@ -762,9 +760,6 @@ Jane's training was healthy and converged well:
 
 **Loss curves indicate smooth, stable training:**
 ![Training Loss Curves](../JaneGPT-v2-Janus/reports/loss_per_epoch.png)
-
-**Validation performance across epochs:**
-![Validation Performance](../JaneGPT-v2-Janus/reports/val_accuracies.png)
 
 **Slot-level F1 scores:**
 ![Slot F1 Scores](../JaneGPT-v2-Janus/reports/val_slot_f1.png)
