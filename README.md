@@ -30,17 +30,9 @@
   <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
-<p align="center">
-  <a href="JaneGPT-v2-Janus/README.md">
-    <img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" /><br />
-    <sub><strong>Janus:</strong> Domain + Action + Slots + Stateful Follow-ups</sub>
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="JaneGPT-v2/README.md">
-    <img src="assets/button-v2.svg" alt="JaneGPT-v2" /><br />
-    <sub><strong>v2:</strong> Fast 22-intent routing model</sub>
-  </a>
-</p>
+<p align="center"><a href="JaneGPT-v2-Janus/README.md"><img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" /></a>&nbsp;&nbsp;<a href="JaneGPT-v2/README.md"><img src="assets/button-v2.svg" alt="JaneGPT-v2" /></a></p>
+
+<p align="center"><img src="assets/caption-janus.svg" alt="Janus: Domain + Action + Slots + Stateful Follow-ups" />&nbsp;&nbsp;<img src="assets/caption-v2.svg" alt="v2: Fast 22-intent routing model" /></p>
 
 ---
 
