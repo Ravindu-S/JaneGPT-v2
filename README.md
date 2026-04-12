@@ -1,10 +1,6 @@
 <a id="top"></a>
 
 <p align="center">
-   <img src="assets/banner.webp" alt="JaneGPT Banner" width="100%" />
-</p>
-
-<p align="center">
   <img src="assets/janegpt-core-glitch.webp" alt="JaneGPT Core" width="760" />
 </p>
 
@@ -34,24 +30,16 @@
   <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
-<table align="center">
-  <tr>
-    <td align="center">
-      <a href="JaneGPT-v2-Janus/README.md">
-        <img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" />
-      </a>
-    </td>
-    <td align="center">
-      <a href="JaneGPT-v2/README.md">
-        <img src="assets/button-v2.svg" alt="JaneGPT-v2" />
-      </a>
-    </td>
-  </tr>
-</table>
-
 <p align="center">
-  <sub><strong>Janus:</strong> Domain + Action + Slots + Stateful Follow-ups</sub><br />
-  <sub><strong>v2:</strong> Fast 22-intent routing model</sub>
+  <a href="JaneGPT-v2-Janus/README.md">
+    <img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" /><br />
+    <sub><strong>Janus:</strong> Domain + Action + Slots + Stateful Follow-ups</sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="JaneGPT-v2/README.md">
+    <img src="assets/button-v2.svg" alt="JaneGPT-v2" /><br />
+    <sub><strong>v2:</strong> Fast 22-intent routing model</sub>
+  </a>
 </p>
 
 ---
