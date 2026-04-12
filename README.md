@@ -32,15 +32,20 @@
   <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
-<p align="center">
-  <a href="JaneGPT-v2-Janus/README.md">
-    <img src="https://capsule-render.vercel.app/api?type=rounded&height=62&width=320&text=JaneGPT-v2-Janus&fontSize=25&fontAlignY=52&color=0:E9D3FF,50:A100FF,100:7800CC&fontColor=FFFFFF&animation=fadeIn" alt="JaneGPT-v2-Janus" />
-  </a>
-  &nbsp;
-  <a href="JaneGPT-v2/README.md">
-    <img src="https://capsule-render.vercel.app/api?type=rounded&height=62&width=320&text=JaneGPT-v2&fontSize=25&fontAlignY=52&color=0:FFC3E9,50:D90090,100:9A0066&fontColor=FFFFFF&animation=fadeIn" alt="JaneGPT-v2" />
-  </a>
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="JaneGPT-v2-Janus/README.md">
+        <img src="https://capsule-render.vercel.app/api?type=rect&height=56&width=280&radius=28&text=JaneGPT-v2-Janus&fontSize=24&fontAlignY=54&color=0:DAB8FF,50:A100FF,100:7600BD&fontColor=FFFFFF" alt="JaneGPT-v2-Janus" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="JaneGPT-v2/README.md">
+        <img src="https://capsule-render.vercel.app/api?type=rect&height=56&width=250&radius=28&text=JaneGPT-v2&fontSize=24&fontAlignY=54&color=0:FFC0E6,50:D90090,100:980064&fontColor=FFFFFF" alt="JaneGPT-v2" />
+      </a>
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <sub><strong>Janus:</strong> Domain + Action + Slots + Stateful Follow-ups</sub><br />
