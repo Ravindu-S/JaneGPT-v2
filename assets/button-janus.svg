@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="56" viewBox="0 0 320 56" role="img" aria-label="JaneGPT-v2-Janus">
+  <defs>
+    <linearGradient id="janus-bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FFD4" />
+      <stop offset="50%" stop-color="#7A57C7" />
+      <stop offset="100%" stop-color="#ED53E0" />
+    </linearGradient>
+    <linearGradient id="janus-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.38" />
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="320" height="56" rx="28" fill="url(#janus-bg)" />
+  <rect x="0" y="0" width="320" height="30" rx="28" fill="url(#janus-glass)" />
+
+  <text x="160" y="31" text-anchor="middle" dominant-baseline="middle" fill="#FFFFFF" stroke="#000000" stroke-opacity="0.5" stroke-width="0.9" stroke-linejoin="round" paint-order="stroke fill" font-size="21" font-weight="700" font-family="Segoe UI, Arial, sans-serif">
+    JaneGPT-v2-Janus
+  </text>
+</svg>

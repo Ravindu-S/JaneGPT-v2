@@ -11,3 +11,4 @@ build/
 .vscode/
 *.log
 *.7z
+generate_glitch_title.py

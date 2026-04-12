@@ -4,7 +4,9 @@
    <img src="assets/banner.webp" alt="JaneGPT Banner" width="100%" />
 </p>
 
-<h1 align="center">JaneGPT Core</h1>
+<p align="center">
+  <img src="assets/janegpt-core-glitch.webp" alt="JaneGPT Core" width="760" />
+</p>
 
 <p align="center"><strong>Assistant-focused model suite for command understanding, hierarchical NLU, and runtime-safe execution</strong></p>
 
@@ -36,12 +38,12 @@
   <tr>
     <td align="center">
       <a href="JaneGPT-v2-Janus/README.md">
-        <img src="https://capsule-render.vercel.app/api?type=rect&height=56&width=280&radius=28&text=JaneGPT-v2-Janus&fontSize=24&fontAlignY=54&color=0:DAB8FF,50:A100FF,100:7600BD&fontColor=FFFFFF" alt="JaneGPT-v2-Janus" />
+        <img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" />
       </a>
     </td>
     <td align="center">
       <a href="JaneGPT-v2/README.md">
-        <img src="https://capsule-render.vercel.app/api?type=rect&height=56&width=250&radius=28&text=JaneGPT-v2&fontSize=24&fontAlignY=54&color=0:FFC0E6,50:D90090,100:980064&fontColor=FFFFFF" alt="JaneGPT-v2" />
+        <img src="assets/button-v2.svg" alt="JaneGPT-v2" />
       </a>
     </td>
   </tr>

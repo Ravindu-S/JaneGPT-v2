@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="56" viewBox="0 0 260 56" role="img" aria-label="JaneGPT-v2">
+  <defs>
+    <linearGradient id="v2-bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FFD4" />
+      <stop offset="100%" stop-color="#7A57C7" />
+    </linearGradient>
+    <linearGradient id="v2-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.38" />
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="260" height="56" rx="28" fill="url(#v2-bg)" />
+  <rect x="0" y="0" width="260" height="30" rx="28" fill="url(#v2-glass)" />
+
+  <text x="130" y="31" text-anchor="middle" dominant-baseline="middle" fill="#FFFFFF" stroke="#000000" stroke-opacity="0.5" stroke-width="0.9" stroke-linejoin="round" paint-order="stroke fill" font-size="22" font-weight="700" font-family="Segoe UI, Arial, sans-serif">
+    JaneGPT-v2
+  </text>
+</svg>
