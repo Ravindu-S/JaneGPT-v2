@@ -178,11 +178,11 @@ def main():
     print(f"  Errors          : {len(failures)}")
 
     if failures:
-        print("\n  FAILURES:")
+        print("\nFAILURES:")
         for case, turn, reason in failures:
             print(f"    [{case}] '{turn}' → {reason}")
     else:
-        print("\n  ✅ No errors thrown.")
+        print("\nNo errors thrown.")
 
     print("\n  NOTE: Check [LLAMA] outputs — those are where the model")
     print("  deferred to Llama instead of handling locally. If any")
