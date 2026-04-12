@@ -27,7 +27,7 @@
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
+  <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20AI%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
 <p align="center"><a href="JaneGPT-v2-Janus/README.md"><img src="assets/button-janus.svg" alt="JaneGPT-v2-Janus" /></a>&nbsp;&nbsp;<a href="JaneGPT-v2/README.md"><img src="assets/button-v2.svg" alt="JaneGPT-v2" /></a></p>
