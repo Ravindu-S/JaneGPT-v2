@@ -1,0 +1,91 @@
+{
+  "generated_utc": "2026-04-12T14:56:01.095038+00:00",
+  "source_files": {
+    "baseline": "tools/results/baseline_summary.json",
+    "public": "tools/results/public_benchmarks.json"
+  },
+  "included": {
+    "runtime_reliability": {
+      "janus": {
+        "total_turns": 82,
+        "local_commands": 67,
+        "llama_routes": 3,
+        "clarifications": 12,
+        "errors": 0
+      }
+    },
+    "latency": {
+      "v2": {
+        "device": "cuda",
+        "avg_ms": 31.6,
+        "predictions_per_second": 32
+      },
+      "janus": {
+        "device": "cuda",
+        "forward_mean_ms": 35.373233795166016,
+        "forward_p95_ms": 36.714168548583984,
+        "predict_mean_ms": 25.31208610534668,
+        "predict_p95_ms": 34.600624084472656
+      }
+    },
+    "ood_rejection": {
+      "banking77": {
+        "v2": {
+          "count": 1235,
+          "accuracy": 0.8947368421052632,
+          "ood_precision": 0.9935424354243543,
+          "ood_recall": 0.8975,
+          "ood_f1": 0.9430823117338003,
+          "in_scope_count": 35,
+          "ood_count": 1200,
+          "in_scope_false_positive_rate": 0.2,
+          "ood_true_positive_rate": 0.8975
+        },
+        "janus": {
+          "count": 1235,
+          "accuracy": 0.7886639676113361,
+          "ood_precision": 1.0,
+          "ood_recall": 0.7825,
+          "ood_f1": 0.8779803646563815,
+          "in_scope_count": 35,
+          "ood_count": 1200,
+          "in_scope_false_positive_rate": 0.0,
+          "ood_true_positive_rate": 0.7825
+        }
+      },
+      "clinc_oos": {
+        "v2": {
+          "count": 1035,
+          "accuracy": 0.8096618357487922,
+          "ood_precision": 0.9914320685434517,
+          "ood_recall": 0.81,
+          "ood_f1": 0.8915795266923501,
+          "in_scope_count": 35,
+          "ood_count": 1000,
+          "in_scope_false_positive_rate": 0.2,
+          "ood_true_positive_rate": 0.81
+        },
+        "janus": {
+          "count": 1035,
+          "accuracy": 0.6676328502415458,
+          "ood_precision": 1.0,
+          "ood_recall": 0.656,
+          "ood_f1": 0.7922705314009661,
+          "in_scope_count": 35,
+          "ood_count": 1000,
+          "in_scope_false_positive_rate": 0.0,
+          "ood_true_positive_rate": 0.656
+        }
+      }
+    }
+  },
+  "excluded": {
+    "intent_accuracy_on_mapped_subsets": {
+      "datasets": [
+        "MASSIVE",
+        "SNIPS"
+      ],
+      "reason": "Excluded from headline benchmarking because target label schemas do not align with JaneGPT command labels. Mapping coverage is partial and can understate true model quality."
+    }
+  }
+}

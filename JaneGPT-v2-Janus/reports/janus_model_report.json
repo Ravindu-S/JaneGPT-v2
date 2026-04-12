@@ -21,20 +21,20 @@
   "num_actions": 33,
   "num_slot_labels": 15,
   "benchmark_forward": {
-    "forward_ms_mean": 15.684699058532715,
-    "forward_ms_p50": 15.306249618530273,
-    "forward_ms_p95": 17.890398025512695,
-    "iters": 500,
-    "warmup": 50,
+    "forward_ms_mean": 35.373233795166016,
+    "forward_ms_p50": 35.31584930419922,
+    "forward_ms_p95": 36.714168548583984,
+    "iters": 300,
+    "warmup": 30,
     "max_len": 96,
     "batch_size": 1
   },
   "benchmark_predict": {
-    "predict_ms_mean": 10.818010330200195,
-    "predict_ms_p50": 13.492849349975586,
-    "predict_ms_p95": 14.898613929748535,
-    "iters": 500,
-    "warmup": 50,
+    "predict_ms_mean": 25.31208610534668,
+    "predict_ms_p50": 31.921199798583984,
+    "predict_ms_p95": 34.600624084472656,
+    "iters": 300,
+    "warmup": 30,
     "batch_size": 1
   }
 }

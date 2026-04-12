@@ -1,0 +1,182 @@
+{
+  "timestamp_utc": "2026-04-12T14:43:16.152065+00:00",
+  "repo_root": "C:\\Users\\RAVINDU\\Documents\\Projects\\JaneGPT-Core",
+  "settings": {
+    "seed": 42,
+    "max_samples": 1200,
+    "max_ood_samples": 1200,
+    "ood_threshold": 0.65,
+    "v2_device": "auto",
+    "janus_device": "auto",
+    "quick": false,
+    "datasets": [
+      "banking77",
+      "clinc",
+      "massive",
+      "snips"
+    ]
+  },
+  "intent_benchmarks": {
+    "massive_en_us": {
+      "dataset_info": {
+        "dataset": "mteb/amazon_massive_intent",
+        "config": "lang=en",
+        "split": "test",
+        "text_key": "text",
+        "lang_key": "lang",
+        "total_seen": 2974,
+        "mapped_count": 1468,
+        "eval_count": 1200,
+        "coverage": 0.49361129791526565
+      },
+      "metrics": {
+        "count": 1200,
+        "label_distribution": {
+          "browser_search": 702,
+          "set_reminder": 218,
+          "brightness_up": 24,
+          "media_play": 191,
+          "volume_mute": 26,
+          "volume_up": 10,
+          "volume_down": 8,
+          "brightness_down": 18,
+          "volume_set": 3
+        },
+        "raw_label_top10": {
+          "calendar_set": 166,
+          "play_music": 155,
+          "weather_query": 129,
+          "calendar_query": 103,
+          "news_query": 101,
+          "email_query": 99,
+          "datetime_query": 70,
+          "lists_query": 41,
+          "transport_query": 39,
+          "play_audiobook": 36
+        },
+        "v2": {
+          "count": 1200,
+          "accuracy": 0.22666666666666666,
+          "macro_f1": 0.17847770880016015
+        },
+        "janus": {
+          "count": 1200,
+          "accuracy": 0.24166666666666667,
+          "macro_f1": 0.2170856776387072
+        }
+      }
+    },
+    "snips": {
+      "dataset_info": {
+        "dataset": "sonos-nlu-benchmark/snips_built_in_intents",
+        "split": "train",
+        "text_key": "text",
+        "total_seen": 328,
+        "mapped_count": 28,
+        "eval_count": 28,
+        "coverage": 0.08536585365853659
+      },
+      "metrics": {
+        "count": 28,
+        "label_distribution": {
+          "browser_search": 28
+        },
+        "raw_label_top10": {
+          "SearchPlace": 28
+        },
+        "v2": {
+          "count": 28,
+          "accuracy": 0.21428571428571427,
+          "macro_f1": 0.03208556149732621
+        },
+        "janus": {
+          "count": 28,
+          "accuracy": 0.07142857142857142,
+          "macro_f1": 0.022222222222222223
+        }
+      }
+    }
+  },
+  "ood_benchmarks": {
+    "banking77": {
+      "dataset_info": {
+        "dataset": "mteb/banking77",
+        "split": "test",
+        "text_key": "text",
+        "count": 1200
+      },
+      "metrics": {
+        "counts": {
+          "in_scope": 35,
+          "ood": 1200,
+          "total": 1235
+        },
+        "v2": {
+          "count": 1235,
+          "accuracy": 0.8947368421052632,
+          "ood_precision": 0.9935424354243543,
+          "ood_recall": 0.8975,
+          "ood_f1": 0.9430823117338003,
+          "in_scope_count": 35,
+          "ood_count": 1200,
+          "in_scope_false_positive_rate": 0.2,
+          "ood_true_positive_rate": 0.8975
+        },
+        "janus": {
+          "count": 1235,
+          "accuracy": 0.7886639676113361,
+          "ood_precision": 1.0,
+          "ood_recall": 0.7825,
+          "ood_f1": 0.8779803646563815,
+          "in_scope_count": 35,
+          "ood_count": 1200,
+          "in_scope_false_positive_rate": 0.0,
+          "ood_true_positive_rate": 0.7825
+        }
+      }
+    },
+    "clinc_oos": {
+      "dataset_info": {
+        "dataset": "clinc/clinc_oos",
+        "config": "imbalanced",
+        "split": "test",
+        "text_key": "text",
+        "count": 1000
+      },
+      "metrics": {
+        "counts": {
+          "in_scope": 35,
+          "ood": 1000,
+          "total": 1035
+        },
+        "v2": {
+          "count": 1035,
+          "accuracy": 0.8096618357487922,
+          "ood_precision": 0.9914320685434517,
+          "ood_recall": 0.81,
+          "ood_f1": 0.8915795266923501,
+          "in_scope_count": 35,
+          "ood_count": 1000,
+          "in_scope_false_positive_rate": 0.2,
+          "ood_true_positive_rate": 0.81
+        },
+        "janus": {
+          "count": 1035,
+          "accuracy": 0.6676328502415458,
+          "ood_precision": 1.0,
+          "ood_recall": 0.656,
+          "ood_f1": 0.7922705314009661,
+          "in_scope_count": 35,
+          "ood_count": 1000,
+          "in_scope_false_positive_rate": 0.0,
+          "ood_true_positive_rate": 0.656
+        }
+      }
+    }
+  },
+  "notes": [
+    "Intent metrics are computed on mapped subsets only.",
+    "Coverage indicates how much of the source dataset could be mapped to JaneGPT intents.",
+    "OOD metrics use assistant command prompts as in-scope and external datasets as out-of-domain."
+  ]
+}
