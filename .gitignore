@@ -12,3 +12,14 @@ build/
 *.log
 *.7z
 generate_glitch_title.py
+
+# Internal benchmark scripts (do not publish)
+tools/*.py
+tools/__pycache__/
+
+# Internal/generated benchmark artifacts
+tools/results/*
+
+# Keep user-facing fair benchmark outputs
+!tools/results/fair_benchmarks.md
+!tools/results/fair_benchmarks.json
