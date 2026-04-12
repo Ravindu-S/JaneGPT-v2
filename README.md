@@ -29,29 +29,27 @@
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-111827?style=for-the-badge&labelColor=0f172a&color=1f2937" alt="Model Lineup" />
+  <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
 <table align="center">
   <tr>
-    <td align="center" width="360">
+    <td align="center" width="420">
       <a href="JaneGPT-v2-Janus/README.md">
-        <img src="https://img.shields.io/badge/JaneGPT--v2--Janus-Hierarchical%20NLU%20%2B%20Runtime-0ea5e9?style=for-the-badge" alt="JaneGPT-v2-Janus" />
+        <img src="https://capsule-render.vercel.app/api?type=rounded&height=56&text=JaneGPT-v2-Janus%20%20%7C%20%20Hierarchical%20NLU%20%2B%20Runtime&fontSize=18&fontAlignY=50&color=0:38bdf8,100:0284c7&fontColor=ffffff&animation=twinkling" alt="JaneGPT-v2-Janus" />
       </a>
       <br />
       <sub><strong>Domain + Action + Slots + Stateful Follow-ups</strong></sub>
     </td>
-    <td align="center" width="360">
+    <td align="center" width="420">
       <a href="JaneGPT-v2/README.md">
-        <img src="https://img.shields.io/badge/JaneGPT--v2-Intent%20Classifier%20Baseline-22c55e?style=for-the-badge" alt="JaneGPT-v2" />
+        <img src="https://capsule-render.vercel.app/api?type=rounded&height=56&text=JaneGPT-v2%20%20%7C%20%20Intent%20Classifier%20Baseline&fontSize=18&fontAlignY=50&color=0:4ade80,100:15803d&fontColor=ffffff&animation=fadeIn" alt="JaneGPT-v2" />
       </a>
       <br />
       <sub><strong>Fast 22-intent routing model</strong></sub>
     </td>
   </tr>
 </table>
-
-<p align="center"><a href="#start-here"><strong>Enter Start Here -></strong></a></p>
 
 ---
 
