@@ -12,6 +12,7 @@ build/
 *.log
 *.7z
 generate_glitch_title.py
+Huggingface/
 
 # Internal benchmark scripts (do not publish)
 tools/*.py
