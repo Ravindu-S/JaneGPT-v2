@@ -1,0 +1,40 @@
+{
+  "model_name": "JaneGPT-v2-Janus",
+  "checkpoint_path": "C:\\Users\\RAVINDU\\Documents\\Projects\\JaneGPT-Core\\JaneGPT-v2-Janus\\weights\\janegpt_v2_janus.pt",
+  "checkpoint_size_mb": 30.620539665222168,
+  "device": "cuda",
+  "config": {
+    "vocab_size": 8192,
+    "embed_dim": 256,
+    "num_layers": 8,
+    "num_heads": 8,
+    "num_kv_heads": 4,
+    "ff_hidden": 672,
+    "max_len": 96,
+    "causal": false
+  },
+  "params_total": 7949626,
+  "params_trainable": 7949626,
+  "params_backbone": 7803136,
+  "params_heads": 146490,
+  "num_domains": 10,
+  "num_actions": 33,
+  "num_slot_labels": 15,
+  "benchmark_forward": {
+    "forward_ms_mean": 15.684699058532715,
+    "forward_ms_p50": 15.306249618530273,
+    "forward_ms_p95": 17.890398025512695,
+    "iters": 500,
+    "warmup": 50,
+    "max_len": 96,
+    "batch_size": 1
+  },
+  "benchmark_predict": {
+    "predict_ms_mean": 10.818010330200195,
+    "predict_ms_p50": 13.492849349975586,
+    "predict_ms_p95": 14.898613929748535,
+    "iters": 500,
+    "warmup": 50,
+    "batch_size": 1
+  }
+}
