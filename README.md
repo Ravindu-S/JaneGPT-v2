@@ -32,24 +32,20 @@
   <img src="https://img.shields.io/badge/Model%20Lineup-Choose%20Your%20Engine-0f172a?style=for-the-badge&labelColor=111827&color=1f2937" alt="Model Lineup" />
 </p>
 
-<table align="center">
-  <tr>
-    <td align="center" width="420">
-      <a href="JaneGPT-v2-Janus/README.md">
-        <img src="https://capsule-render.vercel.app/api?type=rounded&height=56&text=JaneGPT-v2-Janus%20%20%7C%20%20Hierarchical%20NLU%20%2B%20Runtime&fontSize=18&fontAlignY=50&color=0:38bdf8,100:0284c7&fontColor=ffffff&animation=twinkling" alt="JaneGPT-v2-Janus" />
-      </a>
-      <br />
-      <sub><strong>Domain + Action + Slots + Stateful Follow-ups</strong></sub>
-    </td>
-    <td align="center" width="420">
-      <a href="JaneGPT-v2/README.md">
-        <img src="https://capsule-render.vercel.app/api?type=rounded&height=56&text=JaneGPT-v2%20%20%7C%20%20Intent%20Classifier%20Baseline&fontSize=18&fontAlignY=50&color=0:4ade80,100:15803d&fontColor=ffffff&animation=fadeIn" alt="JaneGPT-v2" />
-      </a>
-      <br />
-      <sub><strong>Fast 22-intent routing model</strong></sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <a href="JaneGPT-v2-Janus/README.md">
+    <img src="https://capsule-render.vercel.app/api?type=rounded&height=62&width=320&text=JaneGPT-v2-Janus&fontSize=25&fontAlignY=52&color=0:E9D3FF,50:A100FF,100:7800CC&fontColor=FFFFFF&animation=fadeIn" alt="JaneGPT-v2-Janus" />
+  </a>
+  &nbsp;
+  <a href="JaneGPT-v2/README.md">
+    <img src="https://capsule-render.vercel.app/api?type=rounded&height=62&width=320&text=JaneGPT-v2&fontSize=25&fontAlignY=52&color=0:FFC3E9,50:D90090,100:9A0066&fontColor=FFFFFF&animation=fadeIn" alt="JaneGPT-v2" />
+  </a>
+</p>
+
+<p align="center">
+  <sub><strong>Janus:</strong> Domain + Action + Slots + Stateful Follow-ups</sub><br />
+  <sub><strong>v2:</strong> Fast 22-intent routing model</sub>
+</p>
 
 ---
 
