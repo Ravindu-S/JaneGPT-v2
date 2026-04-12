@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="22" viewBox="0 0 320 22" role="img" aria-label="Janus: Domain + Action + Slots + Stateful Follow-ups">
-  <text x="160" y="15" text-anchor="middle" fill="#111827" font-size="13" font-weight="600" font-family="Segoe UI, Arial, sans-serif">
+  <text x="160" y="15" text-anchor="middle" fill="#F8FAFC" stroke="#020617" stroke-opacity="0.55" stroke-width="0.7" stroke-linejoin="round" paint-order="stroke fill" font-size="13" font-weight="600" font-family="Segoe UI, Arial, sans-serif">
     Janus: Domain + Action + Slots + Stateful Follow-ups
   </text>
 </svg>
