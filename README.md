@@ -4,7 +4,7 @@
   <img src="assets/janegpt-core-glitch.webp" alt="JaneGPT Core" width="760" />
 </p>
 
-<p align="center"><strong>Assistant-focused model suite for command understanding, hierarchical [NLU](assets/TECHNICAL_DICTIONARY.md#nlu-natural-language-understanding), and runtime-safe execution</strong></p>
+<p align="center"><strong>Assistant-focused model suite for command understanding, hierarchical <a href="assets/TECHNICAL_DICTIONARY.md#nlu-natural-language-understanding">NLU</a>, and runtime-safe execution</strong></p>
 
 <p align="center">
    <img src="https://img.shields.io/badge/models-2-1f6feb?style=for-the-badge" alt="Models 2" />
