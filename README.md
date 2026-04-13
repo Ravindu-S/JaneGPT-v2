@@ -161,21 +161,6 @@ Full detailed report:
 
 ---
 
-## Add A New Model In 60 Seconds
-
-1. Add a new model folder with its own README.
-2. Insert one row in `Current Model List` between:
-    - `MODEL-LIST-START`
-    - `MODEL-LIST-END`
-3. Add one quick path under `Quick Paths`.
-4. If it is your best/latest model, update `Start Here`.
-
-Template row:
-
-| [Model-Name](Model-Folder/) | One-line purpose | 2-3 strongest highlights | [Model-Folder/README.md](Model-Folder/README.md) |
-
----
-
 ## License
 
 Each model folder defines its own license:
