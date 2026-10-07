@@ -1,7 +1,7 @@
 {
   "model_name": "JaneGPT-v2-Janus",
-  "checkpoint_path": "C:\\Users\\RAVINDU\\Documents\\Projects\\JaneGPT-Core\\JaneGPT-v2-Janus\\weights\\janegpt_v2_janus.pt",
-  "checkpoint_size_mb": 30.620539665222168,
+  "checkpoint_path": "weights/janegpt_v2_janus.pt",
+  "checkpoint_size_mb": 30.611062049865723,
   "device": "cuda",
   "config": {
     "vocab_size": 8192,
@@ -20,21 +20,31 @@
   "num_domains": 10,
   "num_actions": 33,
   "num_slot_labels": 15,
+  "val_metrics": {
+    "val_loss": 0.13009352400374083,
+    "domain_acc": 0.9886676875957121,
+    "action_acc": 0.9846860643185299,
+    "pair_acc": 0.984073506891271,
+    "slot_precision": 0.9887005649717514,
+    "slot_recall": 0.998003992015968,
+    "slot_f1": 0.993330495246204,
+    "val_examples": 3265
+  },
   "benchmark_forward": {
-    "forward_ms_mean": 35.373233795166016,
-    "forward_ms_p50": 35.31584930419922,
-    "forward_ms_p95": 36.714168548583984,
-    "iters": 300,
-    "warmup": 30,
+    "forward_ms_mean": 22.23236083984375,
+    "forward_ms_p50": 21.25550079345703,
+    "forward_ms_p95": 28.66242027282715,
+    "iters": 200,
+    "warmup": 20,
     "max_len": 96,
     "batch_size": 1
   },
   "benchmark_predict": {
-    "predict_ms_mean": 25.31208610534668,
-    "predict_ms_p50": 31.921199798583984,
-    "predict_ms_p95": 34.600624084472656,
-    "iters": 300,
-    "warmup": 30,
+    "predict_ms_mean": 15.371779441833496,
+    "predict_ms_p50": 18.22075080871582,
+    "predict_ms_p95": 23.734487533569336,
+    "iters": 200,
+    "warmup": 20,
     "batch_size": 1
   }
 }

@@ -3,18 +3,34 @@ import torch
 import torch.nn.functional as F
 from tokenizers import Tokenizer
 
-from .multitask import JaneGPTv3MultiTask
+from .multitask import JaneGPTJanusMultiTask
 from . import labels as L
 
 PAD_ID = 0
 
-# Follow-ups (volume/brightness)
-FOLLOWUP_UP = re.compile(r"\b(not enough|more|increase it|raise it|turn it up|louder|boost it|a bit more|again more)\b", re.I)
-FOLLOWUP_DOWN = re.compile(r"\b(too loud|too bright|less|decrease it|lower it|turn it down|quieter|softer|a bit less|dimmer)\b", re.I)
+# Follow-ups (volume/brightness). Only applied to short utterances made of
+# adjustment words, so "tell me more about black holes" is NOT "volume up".
+FOLLOWUP_UP = re.compile(r"\b(not enough|more|increase it|raise it|turn it up|louder|boost it|a bit more|again more|"
+                         r"brighter|higher|too quiet|too soft|too dark|too dim)\b", re.I)
+FOLLOWUP_DOWN = re.compile(r"\b(too loud|too bright|too much|too high|less|decrease it|lower it|turn it down|quieter|"
+                           r"softer|a bit less|dimmer|darker|lower)\b", re.I)
 FOLLOWUP_REPEAT = re.compile(r"\b(again|do it again|repeat that|same again)\b", re.I)
+_FOLLOWUP_OK_WORDS = {
+    "that", "this", "it", "its", "it's", "that's", "is", "was", "still", "way", "a", "an", "bit", "little", "lot",
+    "the", "volume", "sound", "audio", "music", "screen", "brightness", "display", "please", "jane", "no", "not",
+    "too", "much", "even", "just", "now", "ok", "okay", "hmm", "um", "uh", "make", "turn", "so", "very", "really",
+    "kinda", "kind", "of", "some", "again", "bit", "enough", "more", "less", "up", "down", "do", "same", "repeat",
+    "louder", "quieter", "softer", "brighter", "dimmer", "darker", "higher", "lower", "loud", "quiet", "soft",
+    "bright", "dark", "dim", "high", "low", "increase", "decrease", "raise", "boost", "slightly", "tad",
+}
+_BRIGHTNESS_WORDS = re.compile(r"\b(bright|brighter|brightness|dim|dimmer|dark|darker|screen|display)\b", re.I)
+_VOLUME_WORDS = re.compile(r"\b(loud|louder|quiet|quieter|soft|softer|volume|sound|audio|music|hear)\b", re.I)
 
-# Smalltalk/gratitude safety net (pre-NLU)
-SMALLTALK = re.compile(r"^\s*(hi|hello|hey|yo|sup|thanks|thank you|thx|ty)\b", re.I)
+# Smalltalk/gratitude safety net (pre-NLU). Whole-utterance only, so
+# "Hey Jane, open Chrome." still goes to the model.
+SMALLTALK = re.compile(
+    r"^\s*(hi|hello|hey|yo|sup|hiya|thanks|thank you|thx|ty|cheers)"
+    r"(\s+(there|jane|so much|a lot|again|very much))*[\s!.,?]*$", re.I)
 
 def _decode_bio(pred_ids, offsets, text):
     spans = []
@@ -60,7 +76,7 @@ def _decode_bio(pred_ids, offsets, text):
             out[stype] = {"text": stext, "start": s0, "end": s1, "token_idxs": toks}
     return out
 
-class JaneGPTv3NLU:
+class JaneGPTJanusNLU:
     def __init__(self, model_path, tokenizer_path, device=None):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.tok = Tokenizer.from_file(tokenizer_path)
@@ -69,7 +85,7 @@ class JaneGPTv3NLU:
         cfg = ckpt.get("config", {})
         self.max_len = int(cfg.get("max_len", 96))
 
-        self.model = JaneGPTv3MultiTask(
+        self.model = JaneGPTJanusMultiTask(
             num_domains=len(L.DOMAIN_LABELS),
             num_actions=len(L.ACTION_LABELS),
             num_slot_labels=len(L.SLOT_LABELS),
@@ -100,11 +116,21 @@ class JaneGPTv3NLU:
         last_domain = state.get("last_domain")
         last_action = state.get("last_action")
 
+        words = re.findall(r"[a-z']+", text.lower())
+        if not words or len(words) > 7 or any(w not in _FOLLOWUP_OK_WORDS for w in words):
+            return None  # not a pure adjustment phrase -> let the model decide
+
         if last_domain in ("volume", "brightness"):
-            if FOLLOWUP_UP.search(text):
-                return {"domain": last_domain, "action": "up", "reason": "followup_adjust_up"}
+            # an explicit domain word beats the previous domain
+            domain = last_domain
+            if _BRIGHTNESS_WORDS.search(text) and not _VOLUME_WORDS.search(text):
+                domain = "brightness"
+            elif _VOLUME_WORDS.search(text) and not _BRIGHTNESS_WORDS.search(text):
+                domain = "volume"
             if FOLLOWUP_DOWN.search(text):
-                return {"domain": last_domain, "action": "down", "reason": "followup_adjust_down"}
+                return {"domain": domain, "action": "down", "reason": "followup_adjust_down"}
+            if FOLLOWUP_UP.search(text):
+                return {"domain": domain, "action": "up", "reason": "followup_adjust_up"}
             if FOLLOWUP_REPEAT.search(text) and last_action:
                 return {"domain": last_domain, "action": last_action, "reason": "followup_repeat"}
         else:
@@ -159,6 +185,8 @@ class JaneGPTv3NLU:
                 "action": ov["action"],
                 "slots": {},
                 "confidence": 1.0,
+                "legacy_intent": L.to_legacy_intent(ov["domain"], ov["action"]) if hasattr(L, "to_legacy_intent") else None,
+                "route": "local",
                 "notes": {"followup": ov["reason"]},
             }
 
@@ -255,3 +283,7 @@ class JaneGPTv3NLU:
             state["last_action"] = result.get("action")
             state["last_slots"] = result.get("slots", {})
         return state
+
+
+# Backward-compatible alias: earlier releases exported this class as JaneGPTv3NLU.
+JaneGPTv3NLU = JaneGPTJanusNLU

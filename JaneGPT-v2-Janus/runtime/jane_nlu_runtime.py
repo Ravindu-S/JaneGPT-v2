@@ -1,7 +1,12 @@
 import os, re, time
 from typing import Dict, Tuple, Any, Optional
 
-from janegpt_v2_janus.inference import JaneGPTv3NLU
+try:
+    from janegpt_v2_janus.inference import JaneGPTJanusNLU
+except ImportError:  # run directly from runtime/: the package sits one level up
+    import sys as _sys
+    _sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from janegpt_v2_janus.inference import JaneGPTJanusNLU
 from janegpt_v2_janus import labels as L
 
 
@@ -39,6 +44,15 @@ def extract_free_text(text: str) -> Optional[str]:
 _COLLOQUIAL_TURN_UP = re.compile(r"\bturn\s+(that|it)\s+up\b", re.I)
 _COLLOQUIAL_TURN_DOWN = re.compile(r"\bturn\s+(that|it)\s+down\b", re.I)
 
+# Replies that cancel a pending clarification instead of answering it.
+_CANCEL = re.compile(
+    r"^\s*(never\s*mind|nevermind|cancel( that| it)?|forget (it|that|about it)|stop|nope|no( thanks| thank you)?|"
+    r"nothing|don'?t worry( about it)?)[\s!.,?]*$", re.I)
+
+# "close it" / "switch back to it" -> the last app Jane touched.
+_APP_PRONOUNS = {"it", "that", "this", "them", "that app", "this app", "the app", "it again", "that one"}
+_APP_PRONOUN_RE = re.compile(r"\b(it|that|this|them)\b", re.I)
+
 
 class JaneNLURuntime:
     """
@@ -53,18 +67,20 @@ class JaneNLURuntime:
         base_dir: str,
         model_filename: str = "janegpt_v2_janus.pt",
         device=None,
+        model_path: Optional[str] = None,
+        tokenizer_path: Optional[str] = None,
     ):
         self.base_dir = base_dir
         self.weights_dir = os.path.join(base_dir, "weights")
-        self.model_path = os.path.join(self.weights_dir, model_filename)
-        self.tok_path = os.path.join(self.weights_dir, "tokenizer.json")
+        self.model_path = model_path or os.path.join(self.weights_dir, model_filename)
+        self.tok_path = tokenizer_path or os.path.join(self.weights_dir, "tokenizer.json")
 
         if not os.path.exists(self.model_path):
             raise FileNotFoundError(self.model_path)
         if not os.path.exists(self.tok_path):
             raise FileNotFoundError(self.tok_path)
 
-        self.nlu = JaneGPTv3NLU(self.model_path, self.tok_path, device=device)
+        self.nlu = JaneGPTJanusNLU(self.model_path, self.tok_path, device=device)
 
     # ──────────────────────────────────────────────
     # FIX 1 helper: strip WINDOW_NAME slots that
@@ -79,6 +95,49 @@ class JaneNLURuntime:
                     continue  # drop fake window name
             cleaned[slot_type] = slot_val
         return cleaned
+
+    def _remember(self, result: Dict[str, Any], state: Dict[str, Any]) -> Dict[str, Any]:
+        """update_state + remember the last app name for pronoun follow-ups."""
+        state = self.nlu.update_state(result, state)
+        app = (result.get("slots") or {}).get("APP_NAME")
+        if result.get("domain") == "apps" and app:
+            name = app.get("text") if isinstance(app, dict) else str(app)
+            if name and name.strip().lower() not in _APP_PRONOUNS:
+                state["last_app"] = name.strip()
+        return state
+
+    def _resolve_app_pronoun(self, r: Dict[str, Any], text: str, state: Dict[str, Any]) -> Dict[str, Any]:
+        """Fill APP_NAME for "close it" / "switch back to it" from the last app."""
+        last_app = state.get("last_app")
+        if not last_app:
+            return r
+        app_slot = {"text": last_app, "confidence": 1.0, "start": None, "end": None}
+
+        if r.get("type") == "clarify":
+            dbg = r.get("debug", {})
+            reason = dbg.get("reason", "")
+            if (dbg.get("domain") == "apps" and reason in ("missing_APP_NAME", "lowconf_APP_NAME")
+                    and _APP_PRONOUN_RE.search(text)):
+                return {
+                    "type": "command",
+                    "domain": "apps",
+                    "action": dbg.get("action"),
+                    "slots": {"APP_NAME": app_slot},
+                    "confidence": 0.9,
+                    "legacy_intent": L.to_legacy_intent("apps", dbg.get("action")),
+                    "route": "local",
+                    "notes": {"app_pronoun_resolved": True},
+                }
+            return r
+
+        if r.get("type") == "command" and r.get("domain") == "apps":
+            slots = dict(r.get("slots") or {})
+            cur = slots.get("APP_NAME")
+            cur_text = (cur.get("text") if isinstance(cur, dict) else str(cur or "")).strip().lower()
+            if cur is None or cur_text in _APP_PRONOUNS:
+                slots["APP_NAME"] = app_slot
+                r = dict(r, slots=slots)
+        return r
 
     def _missing_required_slot(self, domain: str, action: str, slots: Dict[str, Any]) -> Optional[str]:
         reqs = getattr(L, "REQUIRED_SLOTS", {}).get((domain, action), [])
@@ -244,6 +303,22 @@ class JaneNLURuntime:
                 "do": None,
             }, state
 
+        # ── 0) Pending question: allow cancel, or a new command ──
+        pending = state.get("pending")
+        if pending:
+            if _CANCEL.match(user_text):
+                state.pop("pending", None)
+                return {"say": "Okay, cancelled.", "do": None, "cancelled": True}, state
+            # A confident, complete command for a DIFFERENT domain is a new
+            # request, not the answer ("open" -> "turn on wifi").
+            probe = self.nlu.predict(user_text, state=state)
+            if (probe.get("type") == "command" and probe.get("route") == "local"
+                    and probe.get("domain") != pending.get("domain")
+                    and float(probe.get("confidence", 0.0) or 0.0) >= 0.85
+                    and not self._missing_required_slot(
+                        probe["domain"], probe["action"], self._clean_slots(probe.get("slots", {})))):
+                state.pop("pending", None)
+
         # ── 1) Resolve pending slot fill ────────────────────────
         resolved, state = self._resolve_pending(user_text, state)
         if resolved is not None:
@@ -261,7 +336,7 @@ class JaneNLURuntime:
 
             resolved_clean = dict(resolved)
             resolved_clean["slots"] = slots
-            state = self.nlu.update_state(resolved_clean, state)
+            state = self._remember(resolved_clean, state)
             return {
                 "say": None,
                 "do": {
@@ -277,7 +352,7 @@ class JaneNLURuntime:
         # ── 1b) Colloquial controls (safe narrow override) ─────
         ov = self._colloquial_override(user_text, state)
         if ov is not None:
-            state = self.nlu.update_state(ov, state)
+            state = self._remember(ov, state)
             return {
                 "say": None,
                 "do": {
@@ -292,6 +367,7 @@ class JaneNLURuntime:
 
         # ── 2) Normal NLU ────────────────────────────────────────
         r = self.nlu.predict(user_text, state=state)
+        r = self._resolve_app_pronoun(r, user_text, state)
 
         # ── 2a) Clarification → store pending ───────────────────
         if r["type"] == "clarify":
@@ -344,7 +420,7 @@ class JaneNLURuntime:
 
         r_for_state = dict(r)
         r_for_state["slots"] = r_slots
-        state = self.nlu.update_state(r_for_state, state)
+        state = self._remember(r_for_state, state)
 
         return {
             "say": None,
@@ -364,7 +440,9 @@ if __name__ == "__main__":
     import sys
     from pathlib import Path
 
-    root = Path(__file__).resolve().parents[1]
+    # weights/ sits next to this file (or one level up in the runtime/ layout)
+    here = Path(__file__).resolve().parent
+    root = here if (here / "weights").exists() else here.parent
     sys.path.insert(0, str(root))
 
     from jane_nlu_runtime import JaneNLURuntime  # relative import for direct run
@@ -373,16 +451,19 @@ if __name__ == "__main__":
     state = {}
 
     dialog = [
-        "increase the volume",
-        "that is not enough",
-        "that's too loud",
-        "set volume",
+        "Hey Jane, open Chrome.",
+        "Close it.",
+        "Increase the volume by 20.",
+        "That's too loud.",
+        "Set volume",
         "55",
-        "search",
-        "cats",
-        "set a reminder",
-        "7:30 am",
-        "hello",
+        "Open",
+        "Never mind.",
+        "Remind me to call mom in 5 minutes.",
+        "The screen is way too bright.",
+        "What's the volume of a sphere?",
+        "Book me a flight to Tokyo.",
+        "Hello!",
         "   ",
     ]
 

@@ -1,16 +1,16 @@
 {
-  "generated_utc": "2026-04-12T14:56:01.095038+00:00",
+  "generated_utc": "2026-10-07T18:28:31.049338+00:00",
   "source_files": {
-    "baseline": "tools/results/baseline_summary.json",
-    "public": "tools/results/public_benchmarks.json"
+    "model_report": "reports/janus_model_report.json",
+    "public": "reports/public_benchmarks.json"
   },
   "included": {
     "runtime_reliability": {
       "janus": {
         "total_turns": 82,
         "local_commands": 67,
-        "llama_routes": 3,
-        "clarifications": 12,
+        "llama_routes": 4,
+        "clarifications": 11,
         "errors": 0
       }
     },
@@ -22,10 +22,10 @@
       },
       "janus": {
         "device": "cuda",
-        "forward_mean_ms": 35.373233795166016,
-        "forward_p95_ms": 36.714168548583984,
-        "predict_mean_ms": 25.31208610534668,
-        "predict_p95_ms": 34.600624084472656
+        "forward_mean_ms": 22.23236083984375,
+        "forward_p95_ms": 28.66242027282715,
+        "predict_mean_ms": 15.371779441833496,
+        "predict_p95_ms": 23.734487533569336
       }
     },
     "ood_rejection": {
@@ -43,14 +43,14 @@
         },
         "janus": {
           "count": 1235,
-          "accuracy": 0.7886639676113361,
+          "accuracy": 0.9489878542510122,
           "ood_precision": 1.0,
-          "ood_recall": 0.7825,
-          "ood_f1": 0.8779803646563815,
+          "ood_recall": 0.9475,
+          "ood_f1": 0.9730423620025674,
           "in_scope_count": 35,
           "ood_count": 1200,
           "in_scope_false_positive_rate": 0.0,
-          "ood_true_positive_rate": 0.7825
+          "ood_true_positive_rate": 0.9475
         }
       },
       "clinc_oos": {
@@ -67,14 +67,14 @@
         },
         "janus": {
           "count": 1035,
-          "accuracy": 0.6676328502415458,
+          "accuracy": 0.893719806763285,
           "ood_precision": 1.0,
-          "ood_recall": 0.656,
-          "ood_f1": 0.7922705314009661,
+          "ood_recall": 0.89,
+          "ood_f1": 0.9417989417989417,
           "in_scope_count": 35,
           "ood_count": 1000,
           "in_scope_false_positive_rate": 0.0,
-          "ood_true_positive_rate": 0.656
+          "ood_true_positive_rate": 0.89
         }
       }
     }

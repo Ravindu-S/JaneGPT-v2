@@ -88,7 +88,7 @@ class GroupedQueryAttention(nn.Module):
             key_pad = (attention_mask == 0)[:, None, None, :]
             scores = scores.masked_fill(key_pad, float("-inf"))
 
-        # Optional causal mask (OFF for v3 slot tagging / accuracy)
+        # Optional causal mask (OFF for Janus slot tagging / accuracy)
         if causal:
             causal_mask = torch.triu(torch.ones(seq_len, seq_len, device=x.device), diagonal=1).bool()
             scores = scores.masked_fill(causal_mask[None, None, :, :], float("-inf"))
@@ -133,7 +133,7 @@ class TransformerBlock(nn.Module):
 
 class JaneGPTBackbone(nn.Module):
     """
-    v3 Backbone: returns hidden states (B,T,D) and supports attention_mask + causal flag.
+    Janus backbone: returns hidden states (B,T,D) and supports attention_mask + causal flag.
     IMPORTANT: module/param names match v2 (token_embedding, layers.*, norm, dropout)
     so we can warm-start from v2 weights.
     """

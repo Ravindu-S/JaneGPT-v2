@@ -6,6 +6,8 @@ A lightweight [Transformer](../assets/TECHNICAL_DICTIONARY.md#transformer) [NLU]
 
 ![JaneGPT AI Banner](../assets/banner.webp)
 
+> **Update (Oct 2026): improved release.** Higher accuracy and several bug fixes. The tokenizer now normalises casing, so capitalised speech-to-text output is handled like lowercase text; the model was retrained on cleaner, broader data; and the runtime handles wake phrases, cancelled questions and "close it"-style follow-ups. Use the new `weights/tokenizer.json` together with the new weights.
+
 JaneGPT-v2-Janus predicts structured actions as `(domain, action, slots)` and adds runtime intelligence for real multi-turn use.
 
 Janus behavior highlights:
@@ -28,8 +30,8 @@ Janus behavior highlights:
 Latest internal runtime suite (`examples/demo_runtime_suite.py`):
 - 82 turns
 - 67 local command resolutions
-- 3 chat routes (expected conversational turns)
-- 12 clarifications
+- 4 chat routes (expected conversational turns)
+- 11 clarifications
 - 0 runtime errors
 
 ---
@@ -138,14 +140,14 @@ User text
 runtime/jane_nlu_runtime.py
    │  (conversation state, pending slot fill, safe overrides, routing)
    ▼
-janegpt_v2_janus/inference.py (JaneGPTv3NLU)
+janegpt_v2_janus/inference.py (JaneGPTJanusNLU)
    │
    ├─ loads tokenizer from weights/tokenizer.json
    ├─ loads checkpoint from weights/janegpt_v2_janus.pt
    └─ runs model forward + decoding
           │
           ▼
-janegpt_v2_janus/multitask.py (JaneGPTv3MultiTask)
+janegpt_v2_janus/multitask.py (JaneGPTJanusMultiTask)
    │  (domain head + action head + slot head)
    ▼
 janegpt_v2_janus/architecture.py (JaneGPTBackbone)
@@ -160,7 +162,7 @@ janegpt_v2_janus/labels.py
 | File | Responsibility |
 |---|---|
 | `runtime/jane_nlu_runtime.py` | Assistant runtime wrapper. Manages dialogue state, [clarification loops](../assets/TECHNICAL_DICTIONARY.md#slot-clarification--clarification-loops), pending [slot](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling) resolution, safe slot cleanup, colloquial overrides, and chat/local routing. |
-| `janegpt_v2_janus/inference.py` | Core inference API (`JaneGPTv3NLU`). Encodes text, loads `.pt` and tokenizer, predicts [domain](../assets/TECHNICAL_DICTIONARY.md#domain)/[action](../assets/TECHNICAL_DICTIONARY.md#action)/[slots](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling), applies [confidence gating](../assets/TECHNICAL_DICTIONARY.md#confidence-gating) and follow-up overrides. |
+| `janegpt_v2_janus/inference.py` | Core inference API (`JaneGPTJanusNLU`). Encodes text, loads `.pt` and tokenizer, predicts [domain](../assets/TECHNICAL_DICTIONARY.md#domain)/[action](../assets/TECHNICAL_DICTIONARY.md#action)/[slots](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling), applies [confidence gating](../assets/TECHNICAL_DICTIONARY.md#confidence-gating) and follow-up overrides. |
 | `janegpt_v2_janus/multitask.py` | Multi-head model wrapper. Produces domain [logits](../assets/TECHNICAL_DICTIONARY.md#logits), action [logits](../assets/TECHNICAL_DICTIONARY.md#logits), and token-level [slot](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling) [logits](../assets/TECHNICAL_DICTIONARY.md#logits) from shared backbone features. |
 | `janegpt_v2_janus/architecture.py` | [Transformer](../assets/TECHNICAL_DICTIONARY.md#transformer) backbone implementation ([RMSNorm](../assets/TECHNICAL_DICTIONARY.md#rmsnorm-root-mean-square-layer-normalization), [RoPE](../assets/TECHNICAL_DICTIONARY.md#rope-rotary-position-embedding), [GQA](../assets/TECHNICAL_DICTIONARY.md#gqa-grouped-query-attention), [SwiGLU](../assets/TECHNICAL_DICTIONARY.md#swiglu-swish-gated-linear-unit), blocks, attention mask behavior). |
 | `janegpt_v2_janus/labels.py` | Schema and policy source of truth: labels, allowed [domain](../assets/TECHNICAL_DICTIONARY.md#domain)-[action](../assets/TECHNICAL_DICTIONARY.md#action) combinations, required [slot](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling) rules, and optional legacy intent mapping. |
@@ -172,22 +174,22 @@ janegpt_v2_janus/labels.py
 
 <p align="center">
    <img src="https://img.shields.io/badge/Runtime_Suite-82_turns%20%7C%200_errors-16a34a?style=for-the-badge" alt="Runtime Suite 82 Turns 0 Errors" />
-   <img src="https://img.shields.io/badge/Predict_Latency-25.31ms_mean-0ea5e9?style=for-the-badge" alt="Predict Latency 25.31ms" />
-   <img src="https://img.shields.io/badge/OOD_F1-BANKING77_87.80%25-1f6feb?style=for-the-badge" alt="OOD F1 Banking77 87.80 percent" />
+   <img src="https://img.shields.io/badge/Predict_Latency-15.37ms_mean-0ea5e9?style=for-the-badge" alt="Predict Latency 15.37ms" />
+   <img src="https://img.shields.io/badge/OOD_F1-BANKING77_97.30%25-1f6feb?style=for-the-badge" alt="OOD F1 Banking77 97.30 percent" />
 </p>
 
 - Parameters: 7,949,626
 - Backbone params: 7,803,136
 - Head params: 146,490
-- Checkpoint: `weights/janegpt_v2_janus.pt` (~30.62 MB)
-- Tokenizer: custom [BPE](../assets/TECHNICAL_DICTIONARY.md#bpe-byte-pair-encoding-tokenizer) (`weights/tokenizer.json`, vocab 8192)
+- Checkpoint: `weights/janegpt_v2_janus.pt` (~30.61 MB)
+- Tokenizer: custom [BPE](../assets/TECHNICAL_DICTIONARY.md#bpe-byte-pair-encoding-tokenizer) (`weights/tokenizer.json`, vocab 8192, NFKC + lowercase normalizer)
 
 **Understanding These Benchmarks:**
 
 | Benchmark | What It Tests | What It Means | Example |
 |-----------|--------------|---------------|----------|
 | **Runtime Reliability** | Can Janus handle 82 multi-turn conversations without crashing? | 0 errors = production-ready; 10+ errors = unstable. Tests real assistant behavior ([clarifications](../assets/TECHNICAL_DICTIONARY.md#slot-clarification--clarification-loops), [slot filling](../assets/TECHNICAL_DICTIONARY.md#slot-slot-filling), state changes) | Turn 1: "Set volume" → Turn 45: "Actually make it louder" → Turn 82: Still perfect |
-| **[Latency](../assets/TECHNICAL_DICTIONARY.md#latency)** | How fast Janus runs per prediction | Speed is critical for real-time assistants. Under 50ms = excellent; over 200ms = noticeable lag | User says "open chrome" → model responds in ~25ms |
+| **[Latency](../assets/TECHNICAL_DICTIONARY.md#latency)** | How fast Janus runs per prediction | Speed is critical for real-time assistants. Under 50ms = excellent; over 200ms = noticeable lag | User says "open chrome" → model responds in ~15ms |
 | **[OOD](../assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) Safety (BANKING77)** | Can Janus reject finance questions when trained on home automation? | Tests this model's judgment. ~90% [F1](../assets/TECHNICAL_DICTIONARY.md#f1-score) = excellent (rejects what it shouldn't handle). Under 60% = dangerous (would give wrong answers) | User asks "What's my account balance?" → Janus correctly says "I can't help with that" |
 | **[OOD](../assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) Safety (CLINC)** | Can Janus reject random real-world off-topic requests? | Similar to BANKING77 but with diverse random questions. Proves this model knows its limits | User asks "What's the capital of France?" → Janus correctly rejects it |
 
@@ -197,25 +199,25 @@ janegpt_v2_janus/labels.py
 |---|---:|
 | Total turns | 82 |
 | Local commands | 67 |
-| Llama routes | 3 |
-| Clarifications | 12 |
+| Llama routes | 4 |
+| Clarifications | 11 |
 | Runtime errors | **0** |
 
 ### Fair Latency (CUDA, batch=1, environment-dependent)
 
 | Metric | Value |
 |---|---:|
-| Forward mean | 35.37 ms |
-| Forward p95 | 36.71 ms |
-| End-to-end predict mean | 25.31 ms |
-| End-to-end predict p95 | 34.60 ms |
+| Forward mean | 22.23 ms |
+| Forward p95 | 28.66 ms |
+| End-to-end predict mean | 15.37 ms |
+| End-to-end predict p95 | 23.73 ms |
 
 ### Fair OOD Rejection (schema-agnostic safety)
 
 | Dataset | OOD [Precision](../assets/TECHNICAL_DICTIONARY.md#precision) | OOD [Recall](../assets/TECHNICAL_DICTIONARY.md#recall) | OOD [F1](../assets/TECHNICAL_DICTIONARY.md#f1-score) | In-scope False Positive Rate |
 |---|---:|---:|---:|---:|
-| BANKING77 | 100.00% | 78.25% | 87.80% | 0.00% |
-| CLINC OOS | 100.00% | 65.60% | 79.23% | 0.00% |
+| BANKING77 | 100.00% | 94.75% | 97.30% | 0.00% |
+| CLINC OOS | 100.00% | 89.00% | 94.18% | 0.00% |
 
 ⚠️ **Why we exclude MASSIVE/SNIPS from headlines:**  
 Janus was trained on assistant commands like "set_volume" and "open_app".  
@@ -224,9 +226,9 @@ Only ~50% of their labels could be mapped, so accuracy scores would mislead abou
 Instead, the [OOD](../assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) safety tests (schema-independent) prove this model's actual judgment capability.
 
 **Bottom Line:** Janus is **SOLID** ✅
-- Fast enough for real users (25-35ms per prediction)
+- Fast enough for real users (15-29ms per prediction)
 - Stable enough for production (0 crashes in 82 turns)
-- Safe enough to deploy (87-88% [OOD](../assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection accuracy)
+- Safe enough to deploy (94-97% [OOD](../assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection F1)
 
 For full reports, see:
 - `reports/janus_model_report.md`
@@ -267,9 +269,9 @@ Shows full runtime behavior: clarifications, pending slot filling, follow-up sta
 ### Basic NLU
 
 ```python
-from janegpt_v2_janus.inference import JaneGPTv3NLU
+from janegpt_v2_janus import JaneGPTJanusNLU
 
-nlu = JaneGPTv3NLU(
+nlu = JaneGPTJanusNLU(
     model_path="weights/janegpt_v2_janus.pt",
     tokenizer_path="weights/tokenizer.json",
 )

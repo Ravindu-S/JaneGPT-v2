@@ -107,7 +107,7 @@ def main():
     }
 
     print("\n" + "═" * 70)
-    print("  JaneGPT-v3 Janus — Runtime Test Suite")
+    print("  JaneGPT-v2-Janus — Runtime Test Suite")
     print("═" * 70)
 
     total_turns = 0

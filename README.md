@@ -93,11 +93,11 @@ If you want a simpler intent-only baseline:
 
 ---
 
-## Fair Benchmarks (Apr 2026)
+## Fair Benchmarks (Oct 2026)
 
 <p align="center">
    <img src="https://img.shields.io/badge/Janus_Runtime-82_turns%20%7C%200_errors-16a34a?style=for-the-badge" alt="Janus Runtime 82 Turns 0 Errors" />
-   <img src="https://img.shields.io/badge/Janus_Predict-25.31ms_mean-0ea5e9?style=for-the-badge" alt="Janus Predict Mean 25.31ms" />
+   <img src="https://img.shields.io/badge/Janus_Predict-15.37ms_mean-0ea5e9?style=for-the-badge" alt="Janus Predict Mean 15.37ms" />
    <img src="https://img.shields.io/badge/v2_Predict-31.60ms_mean-1f6feb?style=for-the-badge" alt="v2 Predict Mean 31.60ms" />
 </p>
 
@@ -105,10 +105,10 @@ Only schema-aligned or schema-agnostic benchmarks are shown here.
 
 | Fair Test | JaneGPT-v2 | JaneGPT-v2-Janus | Why It Is Fair |
 |---|---:|---:|---|
-| [Latency](assets/TECHNICAL_DICTIONARY.md#latency) (CUDA, batch=1) | 31.60 ms mean, 32 preds/sec | 25.31 ms mean predict, 34.60 ms p95 | Same local hardware and same benchmark pipeline |
-| Runtime reliability suite (82 turns) | - | 67 local commands, 3 Llama routes, 12 [clarifications](assets/TECHNICAL_DICTIONARY.md#slot-clarification--clarification-loops), **0 errors** | In-domain assistant behavior with strict pass/fail |
-| [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection on BANKING77 | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 94.31% | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 87.80% | Label-schema independent safety test |
-| [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection on CLINC OOS | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 89.16% | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 79.23% | Label-schema independent safety test |
+| [Latency](assets/TECHNICAL_DICTIONARY.md#latency) (CUDA, batch=1) | 31.60 ms mean, 32 preds/sec | 15.37 ms mean predict, 23.73 ms p95 | Same local hardware and same benchmark pipeline |
+| Runtime reliability suite (82 turns) | - | 67 local commands, 4 Llama routes, 11 [clarifications](assets/TECHNICAL_DICTIONARY.md#slot-clarification--clarification-loops), **0 errors** | In-domain assistant behavior with strict pass/fail |
+| [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection on BANKING77 | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 94.31% | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 97.30% | Label-schema independent safety test |
+| [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) rejection on CLINC OOS | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 89.16% | [OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) [F1](assets/TECHNICAL_DICTIONARY.md#f1-score): 94.18% | Label-schema independent safety test |
 
 ---
 
@@ -124,15 +124,15 @@ Instead, we show **OOD safety tests** (out-of-domain rejection) which prove this
 
 | Benchmark | What It Tests | What It Means | Example |
 |-----------|--------------|---------------|----------|
-| **[Latency](assets/TECHNICAL_DICTIONARY.md#latency)** | How fast Jane runs per prediction | Speed is critical for real-time assistants. Under 50ms = excellent; over 200ms = noticeable lag | User says "turn on lights" → model responds in ~25ms (Janus) or ~32ms (v2) |
+| **[Latency](assets/TECHNICAL_DICTIONARY.md#latency)** | How fast Jane runs per prediction | Speed is critical for real-time assistants. Under 50ms = excellent; over 200ms = noticeable lag | User says "turn on lights" → model responds in ~15ms (Janus) or ~32ms (v2) |
 | **Runtime Reliability** | Can Jane handle 82 multi-turn conversations without crashing? | 0 errors = production-ready; 10+ errors = unstable. Tests real assistant behavior ([clarifications](assets/TECHNICAL_DICTIONARY.md#slot-clarification--clarification-loops), [slot filling](assets/TECHNICAL_DICTIONARY.md#slot-slot-filling), state changes) | Turn 1: "Set alarm" → Turn 45: "Change to 3pm" → Turn 82: Still perfect |
 | **[OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) Safety (BANKING77)** | Can Jane reject finance questions when trained on home automation? | Tests this model's judgment. ~90% [F1](assets/TECHNICAL_DICTIONARY.md#f1-score) = excellent (rejects what it shouldn't handle). Under 60% = dangerous (would give wrong answers) | User asks "What's my account balance?" → Jane correctly says "I can't help with that" |
 | **[OOD](assets/TECHNICAL_DICTIONARY.md#out-of-domain-ood) Safety (CLINC)** | Can Jane reject random real-world off-topic requests? | Similar to BANKING77 but with diverse random questions. Proves this model knows its limits | User asks "What's the capital of France?" → Jane correctly rejects it |
 
 **Bottom Line:** Jane is **SOLID** ✅
-- Fast enough for real users (25-31ms per prediction)
+- Fast enough for real users (15-32ms per prediction)
 - Stable enough for production (0 crashes in 82 turns)
-- Safe enough to deploy (87-94% OOD rejection accuracy)
+- Safe enough to deploy (89-97% OOD rejection F1)
 
 Full detailed report:
 - [JaneGPT-v2-Janus/reports/fair_benchmarks.md](JaneGPT-v2-Janus/reports/fair_benchmarks.md)

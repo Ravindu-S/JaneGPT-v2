@@ -41,7 +41,7 @@ def spans_to_bio(offsets, spans):
 
     return [L.SLOT_TO_ID.get(t, L.SLOT_TO_ID["O"]) for t in tags]
 
-class JaneGPTv3Dataset(Dataset):
+class JaneGPTJanusDataset(Dataset):
     def __init__(self, jsonl_path, tokenizer, max_len=128):
         self.items = load_jsonl(jsonl_path)
         self.tok = tokenizer
@@ -79,3 +79,7 @@ class JaneGPTv3Dataset(Dataset):
             "labels_slots": torch.tensor(slot_ids, dtype=torch.long),
             "text": text,
         }
+
+
+# Backward-compatible alias: earlier releases exported this class as JaneGPTv3Dataset.
+JaneGPTv3Dataset = JaneGPTJanusDataset

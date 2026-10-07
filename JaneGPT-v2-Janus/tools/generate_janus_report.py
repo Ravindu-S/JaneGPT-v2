@@ -32,7 +32,7 @@ def eval_val(model, val_loader, device, slot_o_id=0):
         y_slots = b["labels_slots"].to(device, non_blocking=True)
 
         out = model(x, attention_mask=m, labels_domain=y_dom, labels_action=y_act, labels_slots=y_slots, causal=False)
-        loss_sum += float(out["loss"].item())
+        loss_sum += float(out["loss"].item()) * y_dom.size(0)  # per-sample weighting
         steps += 1
 
         dp = out["logits_domain"].argmax(-1)
@@ -60,7 +60,7 @@ def eval_val(model, val_loader, device, slot_o_id=0):
     f1 = 2 * precision * recall / max(precision + recall, 1e-9)
 
     return {
-        "val_loss": loss_sum / max(steps, 1),
+        "val_loss": loss_sum / max(total, 1),
         "domain_acc": cd / max(total, 1),
         "action_acc": ca / max(total, 1),
         "pair_acc": cp / max(total, 1),
@@ -220,9 +220,9 @@ def main():
         sys.path.insert(0, sys_path_added)
 
     # import your package (adjust if your package folder is different)
-    from janegpt_v2_janus.multitask import JaneGPTv3MultiTask
+    from janegpt_v2_janus.multitask import JaneGPTJanusMultiTask
     from janegpt_v2_janus import labels as L
-    from janegpt_v2_janus.inference import JaneGPTv3NLU  # (or alias in __init__)
+    from janegpt_v2_janus.inference import JaneGPTJanusNLU
 
     device = args.device
     ckpt_path = Path(args.ckpt).resolve()
@@ -232,7 +232,7 @@ def main():
     cfg = ckpt.get("config", {})
     max_len = int(cfg.get("max_len", 96))
 
-    model = JaneGPTv3MultiTask(
+    model = JaneGPTJanusMultiTask(
         num_domains=len(L.DOMAIN_LABELS),
         num_actions=len(L.ACTION_LABELS),
         num_slot_labels=len(L.SLOT_LABELS),
@@ -275,10 +275,10 @@ def main():
 
     # Optional validation metrics if val file exists
     if args.val and Path(args.val).exists():
-        from janegpt_v2_janus.dataset import JaneGPTv3Dataset
+        from janegpt_v2_janus.dataset import JaneGPTJanusDataset
         from torch.utils.data import DataLoader
 
-        val_ds = JaneGPTv3Dataset(args.val, tok, max_len=max_len)
+        val_ds = JaneGPTJanusDataset(args.val, tok, max_len=max_len)
         val_loader = DataLoader(val_ds, batch_size=256, shuffle=False, num_workers=0, pin_memory=device.startswith("cuda"))
         report["val_metrics"] = eval_val(model, val_loader, device, slot_o_id=L.SLOT_TO_ID["O"])
 
@@ -297,7 +297,7 @@ def main():
     report["benchmark_forward"] = benchmark_forward(model, tok, device, max_len, texts, iters=args.iters, warmup=max(20, args.iters//10))
 
     # end-to-end predict benchmark
-    nlu = JaneGPTv3NLU(model_path=str(ckpt_path), tokenizer_path=str(tok_path), device=device)
+    nlu = JaneGPTJanusNLU(model_path=str(ckpt_path), tokenizer_path=str(tok_path), device=device)
     report["benchmark_predict"] = benchmark_predict(nlu, device, texts, iters=args.iters, warmup=max(20, args.iters//10))
 
     # write outputs

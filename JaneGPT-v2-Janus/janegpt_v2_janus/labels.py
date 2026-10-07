@@ -1,5 +1,5 @@
 """
-JaneGPT-v3 label sets (aligned to your final dataset policy)
+JaneGPT-v2-Janus label sets (aligned to your final dataset policy)
 """
 
 # --- Domains ---

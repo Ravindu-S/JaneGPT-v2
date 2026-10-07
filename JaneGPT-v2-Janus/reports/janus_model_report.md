@@ -1,7 +1,7 @@
 ## Model Details (auto-generated)
 
-- **Checkpoint**: `C:\Users\RAVINDU\Documents\Projects\JaneGPT-Core\JaneGPT-v2-Janus\weights\janegpt_v2_janus.pt`
-- **Checkpoint size**: `30.62 MB`
+- **Checkpoint**: `weights/janegpt_v2_janus.pt`
+- **Checkpoint size**: `30.61 MB`
 - **Device used for benchmark**: `cuda`
 
 ### Architecture
@@ -34,18 +34,31 @@
 | Actions | 33 |
 | Slot labels (BIO) | 15 |
 
+### Validation Metrics
+
+| Metric | Value |
+|---|---:|
+| val_loss | 0.130094 |
+| domain_acc | 0.988668 |
+| action_acc | 0.984686 |
+| pair_acc | 0.984074 |
+| slot_precision | 0.988701 |
+| slot_recall | 0.998004 |
+| slot_f1 | 0.993330 |
+| val_examples | 3265 |
+
 ### Inference Benchmark (forward-only)
 
 | Stat | ms |
 |---|---:|
-| mean | 35.373 |
-| p50 | 35.316 |
-| p95 | 36.714 |
+| mean | 22.232 |
+| p50 | 21.256 |
+| p95 | 28.662 |
 
 ### Inference Benchmark (end-to-end predict)
 
 | Stat | ms |
 |---|---:|
-| mean | 25.312 |
-| p50 | 31.921 |
-| p95 | 34.601 |
+| mean | 15.372 |
+| p50 | 18.221 |
+| p95 | 23.734 |

@@ -1,6 +1,6 @@
 {
-  "timestamp_utc": "2026-04-12T14:43:16.152065+00:00",
-  "repo_root": "C:\\Users\\RAVINDU\\Documents\\Projects\\JaneGPT-Core",
+  "timestamp_utc": "2026-10-07T18:28:26.159897+00:00",
+  "repo_root": ".",
   "settings": {
     "seed": 42,
     "max_samples": 1200,
@@ -61,8 +61,8 @@
         },
         "janus": {
           "count": 1200,
-          "accuracy": 0.24166666666666667,
-          "macro_f1": 0.2170856776387072
+          "accuracy": 0.21833333333333332,
+          "macro_f1": 0.23703915621857108
         }
       }
     },
@@ -91,8 +91,8 @@
         },
         "janus": {
           "count": 28,
-          "accuracy": 0.07142857142857142,
-          "macro_f1": 0.022222222222222223
+          "accuracy": 0.10714285714285714,
+          "macro_f1": 0.06451612903225806
         }
       }
     }
@@ -124,14 +124,14 @@
         },
         "janus": {
           "count": 1235,
-          "accuracy": 0.7886639676113361,
+          "accuracy": 0.9489878542510122,
           "ood_precision": 1.0,
-          "ood_recall": 0.7825,
-          "ood_f1": 0.8779803646563815,
+          "ood_recall": 0.9475,
+          "ood_f1": 0.9730423620025674,
           "in_scope_count": 35,
           "ood_count": 1200,
           "in_scope_false_positive_rate": 0.0,
-          "ood_true_positive_rate": 0.7825
+          "ood_true_positive_rate": 0.9475
         }
       }
     },
@@ -162,14 +162,14 @@
         },
         "janus": {
           "count": 1035,
-          "accuracy": 0.6676328502415458,
+          "accuracy": 0.893719806763285,
           "ood_precision": 1.0,
-          "ood_recall": 0.656,
-          "ood_f1": 0.7922705314009661,
+          "ood_recall": 0.89,
+          "ood_f1": 0.9417989417989417,
           "in_scope_count": 35,
           "ood_count": 1000,
           "in_scope_false_positive_rate": 0.0,
-          "ood_true_positive_rate": 0.656
+          "ood_true_positive_rate": 0.89
         }
       }
     }

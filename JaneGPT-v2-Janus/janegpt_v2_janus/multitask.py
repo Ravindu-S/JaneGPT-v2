@@ -20,7 +20,7 @@ def pool_last_nonpad(hidden, attention_mask=None):
     return pooled
 
 
-class JaneGPTv3MultiTask(nn.Module):
+class JaneGPTJanusMultiTask(nn.Module):
     """
     Multi-task model:
     - domain classification (pooled)
@@ -102,3 +102,7 @@ class JaneGPTv3MultiTask(nn.Module):
             })
 
         return out
+
+
+# Backward-compatible alias: earlier releases exported this class as JaneGPTv3MultiTask.
+JaneGPTv3MultiTask = JaneGPTJanusMultiTask
